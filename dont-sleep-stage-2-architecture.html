@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta charset="utf-8" content="text/html" http-equiv="Content-Type">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+<title>Don't Sleep, stage 2: Architecture.</title>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="origin" name="referrer"/>
+<meta content="Pelican" name="generator"/>
+<link href="/" rel="canonical"/>
+<!-- Feed -->
+<link href="/theme/css/style.css" rel="stylesheet" type="text/css"/>
+<!-- Code highlight color scheme -->
+<link href="/theme/css/code_blocks/github.css" rel="stylesheet"/>
+<!-- Custom fonts -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,300" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css"/>
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+<link href="/dont-sleep-stage-2-architecture.html" rel="canonical"/>
+<meta content="Our deployment and basic system setup." name="description"/>
+<meta content="Dan" name="author"/>
+<meta content="dont-sleep" name="tags"/>
+<meta content="flaschen-taschen" name="tags"/>
+<meta content="raspbian" name="tags"/>
+<meta content="ansible" name="tags"/>
+<!-- Open Graph -->
+<meta content="Projects What I Done" property="og:site_name">
+<meta content="Don't Sleep, stage 2: Architecture." property="og:title">
+<meta content="Our deployment and basic system setup." property="og:description">
+<meta content="en_US" property="og:locale">
+<meta content="/dont-sleep-stage-2-architecture.html" property="og:url">
+<meta content="article" property="og:type">
+<meta content="2018-08-13 05:30:00-07:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="/author/dan.html" property="article:author"/>
+<meta content="Project" property="article:section">
+<meta content="dont-sleep" property="article:tag"/>
+<meta content="flaschen-taschen" property="article:tag"/>
+<meta content="raspbian" property="article:tag"/>
+<meta content="ansible" property="article:tag"/>
+<meta content="/images/derivatives/header-image/dont-sleep-architecture.jpg" property="og:image"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@burgersquid" name="twitter:site"/>
+<meta content="Don't Sleep, stage 2: Architecture." name="twitter:title"/>
+<meta content="/dont-sleep-stage-2-architecture.html" name="twitter:url"/>
+<meta content="/images/derivatives/header-image/dont-sleep-architecture.jpg" name="twitter:image:src"/>
+<meta content="Our deployment and basic system setup." name="twitter:description"/>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Don't Sleep, stage 2: Architecture.",
+  "headline": "Don't Sleep, stage 2: Architecture.",
+  "datePublished": "2018-08-13 05:30:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Dan",
+    "url": "/author/dan.html"
+  },
+  "image": "/images/derivatives/header-image/dont-sleep-architecture.jpg",
+  "url": "/dont-sleep-stage-2-architecture.html",
+  "description": "Our deployment and basic system setup."
+}
+</script>
+</meta></meta></meta></meta></meta></meta></meta></link></meta></head>
+<!-- TODO : Body class -->
+<body class="home-template">
+<nav id="menu">
+<a class="close-button">Close</a>
+<div class="nav-wrapper">
+<p class="nav-label">Menu</p>
+<ul>
+<li role="presentation"><a href="/pages/about.html">About</a></li>
+<li role="presentation"><a href="/pages/gallery.html">Gallery</a></li>
+<li role="presentation"><a href="/pages/resume.html">Resume</a></li>
+</ul>
+</div>
+</nav>
+<!-- Progressbar -->
+<div class="progress-container">
+<span class="progress-bar"></span>
+</div>
+<!-- Page Header -->
+<!-- Set your background image for this header on the line below. -->
+<header class="has-cover" id="post-header">
+<div class="inner">
+<nav id="navigation">
+<span class="nav-button" id="home-button">
+<a class="home-button" href="/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+</span>
+<span class="nav-button" id="menu-button">
+<a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+</span>
+</nav>
+<h1 class="post-title">Don't Sleep, stage 2: Architecture.</h1>
+<!-- TODO : Proper class for headline -->
+<span class="post-meta">
+<a href="/author/dan.html">Dan</a>
+            | <time datetime="Mon 13 August 2018">Mon 13 August 2018</time>
+</span>
+<!-- TODO : Modified check -->
+<div class="post-cover cover" style="background-image: url('/images/derivatives/header-image/dont-sleep-architecture.jpg')">
+</div>
+</div></header>
+<section id="wrapper">
+<a class="hidden-close"></a>
+<!-- Post content -->
+<main class="content" role="main">
+<article class="post">
+<div class="inner">
+<section class="post-content">
+<h3>Or, Ansible for Raspberry Pi setup.</h3>
+<p>Since HZeller took care the Flaschen Taschen software, most of my code on this project was geared toward deployment and tweaks to the original Flaschen Taschen libraries, to make them work in our configuration. Since this project had a sharp deadline, my goal was to remove as much uncertainty as possible. Thats why I wrote some Ansible setup scripts, to avoid...  </p>
+<h4>Problems I've Had In The Past Writing Code for Raspberry Pi:</h4>
+<ul>
+<li>When an rpi winds up unbootable and needs wiped: "argh, how did I have that configured?"</li>
+<li>Where do I actually write the code? On the Pi itself, or on my laptop? </li>
+<li>If on my laptop: okay so am I pushing my changes to github, SSHing the pi, pulling those changes, and recompiling?</li>
+<li>If on the pi: cool but this is Raspbian Lite so there's no IDEs, and I'm trash at Vim. So is Nano the answer?</li>
+<li>No RTC on the rpi, so it loses time when unpowered, and it relies on the internet to correct it's clock.</li>
+<li>Etc.</li>
+</ul>
+<p>The repo for my Ansible scripts <a href="https://github.com/dwright213/ft-deploy">can be found here</a>. They're pretty simple at the moment, since they are just aimed at taking care of repetitive tasks. I'll break down how they address each item in the "Problems I've Had" list:</p>
+<h4>When an rpi winds up unbootable and needs wiped...</h4>
+<p>That's exactly what all those tasks with the tag "basics" are all about. Once you've enabled SSH on your RPi (which needs to be done with monitor/mouse/keyboard), run: </p>
+<p><code>ansible-playbook main.yml --tags basics --ask-pass</code>. </p>
+<p>You will be asked to enter the RPi's password, then it will:</p>
+<ul>
+<li>Copy your ssh key(s) over to the pi, so you don't have to keep typing in your password to connect to it.</li>
+<li>Run <code>sudo apt update</code> and <code>sudo apt upgrade</code> on the pi.</li>
+<li>Install whatever packages are needed (from a list near the top of the .yml file).</li>
+<li>Change the shell to the <a href="https://fishshell.com/">Fish shell</a>, because I like Fish shell. Finally, a command
+line shell for the 90s!</li>
+</ul>
+<p>There are additional tasks tagged "network" to configure some things on the pi to be a little more easily accessible. For instance, we do some hostname and hostfile tweaks, so I don't have to type a bunch of IP addresses into my terminal. I am also turning off wifi since this project uses ethernet to connect the pis to eachother. To do all that, just type this badboy in:</p>
+<p><code>ansible-playbook main.yml --tags network</code></p>
+<h4>Where do I actually write the code..?</h4>
+<p>On your laptop. Use whichever text editor you normally use, save your work, then run this on your dev machine:</p>
+<p><code>ansible-playbook main.yml --tags code</code></p>
+<p>This does all tasks with the tag "code" on every computer in the inventory file. That includes:</p>
+<ul>
+<li>Synchronize the clock to that on my dev machine.</li>
+<li>Get all the changes I have made to the code on my dev machine, except git files.</li>
+<li>Recompile the Flaschen-Taschen server code</li>
+<li>Recompile the Flaschen-Taschen client code</li>
+</ul>
+<p>Once that's all done, it restarts the Flaschen-Taschen server and it's time to test whatever changes I made. My go-to for this was usually running <a href="https://github.com/cgorringe/ft-demos">one of cgorringe's super cool demos</a> against my newly updated server.</p>
+<h4>No RTC on the RPi...</h4>
+<p>This is why we synchronize the clock in our "code" tasks. I think this normally isn't a problem for most RPi projects but since mine is not internet connected, it's something I need to deal with. Since the Raspberry Pi doesn't have a device to keep time while it's unpowered, they lose however many hours they are unpowered for. This becomes a problem when you are trying to compile C++ code on the pi. Here's basically what happens:</p>
+<ul>
+<li>You turn your RPi off for 3 hours, for whatever reason, at 4:00.</li>
+<li>You turn it back on at 6:00.</li>
+<li>The RPi boots up. Since it can't go online and update it's clock, it continues to think the time is 3:00.</li>
+<li>You write some code on your dev machine, push it to the pi with Ansible, and attempt to compile it at 6:20.</li>
+<li>The RPi sees 6:20 in the "time modified" of the files.</li>
+<li>Since the RPi is pretty sure the time is 3:20, it says "how can I compile that? It was edited in the future!"</li>
+<li>Compilation fails with a cryptic message that you have to read through Ansible's terminal output, which kind of sucks.</li>
+</ul>
+<p>To be clear, I am better at interpreted languages like Python and Javascript, so I'm sure there's a much better way of dealing with this error. But brought it up because I thought it was kind of funny, and this is how I dealt with it.</p>
+<p>Maybe one day if we are lucky we will get a C++ compiler that can compile code written in the future?</p>
+<p><img class="image-process-article-image" src="images/derivatives/article-image/dont-sleep-architecture-1.jpg"/></p>
+<p>Or maybe that's not such a great idea...</p>
+</section>
+<section class="post-info">
+<div class="post-share">
+<a class="twitter" href="https://twitter.com/share?text=Don't Sleep, stage 2: Architecture.&amp;url=/dont-sleep-stage-2-architecture.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+<i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+</a>
+<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/dont-sleep-stage-2-architecture.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+<i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+</a>
+<a class="googleplus" href="https://plus.google.com/share?url=/dont-sleep-stage-2-architecture.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+<i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+</a>
+<div class="clear"></div>
+</div>
+<aside class="post-tags">
+<a href="/tag/dont-sleep.html">dont-sleep</a><a href="/tag/flaschen-taschen.html">flaschen-taschen</a><a href="/tag/raspbian.html">raspbian</a><a href="/tag/ansible.html">ansible</a> </aside>
+<div class="clear"></div>
+</section>
+<aside class="post-nav">
+<div class="clear"></div>
+</aside>
+</div>
+</article>
+</main>
+<!-- TODO : Body class -->
+<div class="" id="body-class" style="display: none;"></div>
+<footer id="footer">
+<div class="inner">
+<section class="credits">
+<span class="credits-theme"><a href="http://danwright.co">Dan</a></span>
+<span class="credits-software">© 1995</span>
+</section>
+</div>
+</footer>
+</section>
+<script src="/theme/js/script.js" type="text/javascript"></script>
+</body>
+</html>
