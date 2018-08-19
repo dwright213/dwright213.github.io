@@ -1434,6 +1434,22 @@ img {
     margin-left: -5%
 }
 
+.post-content img.img-floated-left {
+    max-width: fit-content;
+    margin: 2rem 1rem;
+    float: left;
+}
+.post-content img.img-floated-right {
+    max-width: fit-content;
+    margin: 2rem 1rem;
+    float: left;
+}
+.post-content img.img-nofloat {
+    max-width: fit-content;
+    margin: 2rem 1rem;
+    float: none;
+}
+
 .post-info {
     margin-top: 6em;
     overflow: hidden
